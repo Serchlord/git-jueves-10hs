@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8">
+		<title>Git Desarrollo colaborativo</title>
+		<link rel="stylesheet" href="styles/main.css">
+	</head>
+	<body>
+		<nav>
+			<a href="#">GIT</a>
+			<button class="button">&equiv;</button>
+			<ul class="menu">
+				<li><a href="#" title="inicio">inicio</a></li>
+				<li><a href="#about" title="acerca">acerca</a></li>
+				<li><a href="#contact" title="contacto">contacto</a></li>
+			</ul>			
+		</nav>
+		<header id="header">
+			<h1>Curso Git</h1>
+			<p>Desarrollo colaborativo</p>
+		</header>
+		<section>
+			<h2>Areas de GIT</h2>
+			<article>
+				<h3>Working directory</h3>
+				<p>
+					Es la carpeta donde realizamos los cambios en nuestro proyecto,
+					en este lugar rara vez utilizaremos la consola y es el area 
+					donde se visualizan todos los cambios de los archivos.
+				</p>
+				<ul class="list">
+					<li><strong>mkdir &lt;dir></strong> crea un directorio con el nombre especificado. Por ejemplo para crear una carpeta deberiamos escribir <em>mkdir proyecto-git</em></li>
+					<li><strong>cd &lt;dir></strong> cambia el directorio actual por el indicado. Para acceder a una carpeta, la ruta debe ser correcta como <em>cd proyecto-git</em></li>
+					<li><strong>rm &lt;dir></strong> elimina el directorio o archivo indicado. Para eliminar un repositorio de git debemos utilizarlo de la siguiente manera <em>rm -rf .git</em></li>
+					<li><strong>git init</strong> inicia un repositorio de git o lo reinicia en caso que este ya exista. Debemos tener en cuenta que si utilizamos este comando el ubicaciones diferentes, cada ubicacion se considerara un repositorio en si.</li>
+				</ul>
+			</article>
+			<article>
+				<h3>Staging Area (Index)</h3>
+				<p>
+					Es el area de control de cambios, donde se verifican las modificaciones
+					realizadas en los archivos del proyecto. Aqui se realizan los 
+					<strong> snapshots </strong> de codigo para luego ser confirmados.
+				</p>
+				<ul class="list">
+					<li>
+						<strong>git status</strong> verifica los cambios del WORKING DIRECTORY y los compara con lo almacenado en el INDEX. Cada archivo posee un estado segun las acciones realizadas
+						<ul>
+							<li><strong>untracked:</strong> no se esta haciendo seguimiento</li>
+							<li><strong>tracked:</strong> se esta haciendo seguimiento</li>
+							<li><strong>modified:</strong> difiere con lo que se encuentra en el index</li>
+							<li><strong>commited:</strong> los cambios estan registrados</li>
+						</ul>
+					</li>
+					<li><strong>git add &lt;file></strong> agrega al INDEX los archivos especificados, tambien se pueden agregar directorios, siempre y cuando estos tengan archivos en su interior. Un uso rapido de este comando es <em>git add .</em> que agrega todos los archivos que se hayan modificado o creado en el directorio actual</li>
+					<li><strong>git rm --cached &lt;file></strong> Quita el archivo del area de seguimiento, pero lo mantiene en el WORKING DIRECTORY. Este comando se utiliza cuando no existe una referencia para reestablecer el contenido.</li>
+					<li><strong>git restore &lt;file></strong> Quita el archivo del INDEX, y lo reestablece a como estaba en la ultima cabecera.</li>
+				</ul>
+			</article>
+			<article>
+				<h3>Repository (Local / Remote)</h3>
+				<p>
+					Es el lugar donde se almacen las capturas en formato 
+					<strong> BLOB (Binary Object File) </strong> a las cuales podemos acceder
+					mediante el historial de cambios. Para generar estos archivos debemos emitir
+					un commit, el mismo valida los cambios y los almacena en la base de datos de GIT.
+				</p>
+				<ul class="list">
+					<li><strong>git commit</strong> Abre el editor para generar una confirmacion de cambios que sera guardada en la base de datos del repositorio. Un uso rapido de este comando es <em>git commit -m "message"</em> que permite generar un commit con mensaje sin abrir el editor.</li>
+					<li>
+						<strong>git diff &lt;ref></strong> Compara el WORKING DIRECTORY con el commit al cual apunta la referencia especificada. una forma de comparar cambios realizados cuando no se realizo un commit es <em>git diff HEAD</em>, pero si queremos saber como difiere nuestra cabecera con respecto a otro commit podemo indicarlo de diferentes maneras.
+						<ul>
+							<li><strong>referencia absoluta: </strong> especificamente hablando es el numero de HASH del commit que queremos comparar, por ejemplo <em>c215714</em></li>
+							<li><strong>referencia relativa</strong> indica cuantos commit atras esta nuestra referencia, por ejemplo <em>HEAD^^</em> indica dos ancestros antes de HEAD y <em>HEAD~4</em> indica 4 commits antes de HEAD</li>
+						</ul>
+					</li>
+					<li><strong>git blame &lt;file></strong> muestra las lineas de codigo del archivo especificado, colocando al principio en numero de commit, el nombre del autor, la fecha y hora en que se realizo el mismo, e incluso indica cuando los cambios todavia no fueron confirmados.</li>
+					<li><strong>git remote</strong> lista los repositorios remotos que hayan sido agregados, si nuestro proyecto es un <em>clon</em> por defecto se agrega un remoto llamado <strong>origin</strong>, pero si fue creado, debemos hacerlo manualmente usando el comando <em>git remote add &lt;alias> &lt;URL></em></li>
+				</ul>
+			</article>
+		</section>
+		<section>
+			<h2>Apuntadores de GIT</h2>
+			<article>
+				<h3>HEAD</h3>
+				<p>
+					Es un apuntador movil que nos permite navegar en el historial de cambios, normalmente apunta al ultimo commit de la rama donde nos encontremos y podemos cambiar su posicion para poder visualizar el proyecto a como se encontraba en algun punto de referencia (commit) utilizando el comando <strong>git checkout &lt;ref></strong>
+				</p>
+			</article>
+			<article>
+				<h3>BRANCH</h3>
+				<p>
+				Las ramas son apuntadores dinamicos que siempre hacen referencia al ultimo commit dentro del historial. Podemos crear diferentes ramas y cada una apuntara a un commit  particular, este puede ser el mismo o pueden ser totalmente diferentes. Si se quiere comparar, podrian interpretarse como lineas de tiempo paralelas; las ramas son necesarias ya que permiten al apuntador HEAD navegar en el historial y volver al ultimo commit  sin problemas. Para crear una rama debemos utilizar el comando <strong>git branch &lt;branch></strong>
+				</p>
+			</article>
+			<article>
+				<h3>STASH</h3>
+				<p>
+					Es la zona temporal de cambios, donde podemos apilar todas las modificaciones realizadas en el WORKING DIRECTORY de aquellos archivos que se encuentren en el INDEX. Estos cambios no se almacenan en el repositorio remoto y utilizan como referencia el INDEX y el COMMIT al que apunta para poder reestablecer el directorio de trabajo, esto se hace cuando queremos cambiar de rama o commit dentro de la misma rama y tenemos cambios pendientes que no fueron cometidos. Para aplicarlo debemos utilizar los comandos <strong>git stash</strong> para limpiar el INDEX y almacenar los cambios en la ZONA STASH y luego <strong>git stash pop</strong> para aplicarlos y eliminar la referencia de la ZONA STASH.
+				</p>
+			</article>
+			<article>
+				<h3>TAG</h3>
+				<p>
+				Las etiquetas son apuntadores estaticos que apuntan a un commit en particular dentro del historial, se suelen utilizar para el versionado de nuestro proyecto e incluso se pueden generar anotaciones al igual que en cualquier mensaje de commit. Se utilizan para facilitar la navegacion dentro del historial a un punto en particular y normalmente se identifican de manera similar. Para subir los tags de un proyecto a un repositorio remoto debemos utilizar el comando <strong>git push &lt;remote> --tags</strong>
+				</p>
+			</article>
+		</section>
+		<footer id="footer">
+			<form id="contact" action="">
+				
+			</form>
+			<div class="social">
+				<a href=""></a>
+				<a href=""></a>
+				<a href=""></a>
+				<a class="github" href="https://github.com/c215714n/git-jueves-10hs" target="_blank">GitHub</a>
+			</div>
+			<table>
+				<caption>Colaboradores</caption>
+				<thead>
+					<tr>
+						<th>Apellido/s</th>
+						<th>Nombre/s</th>
+						<th>Usuario</th>
+						<th>Correo</th>
+						<th>Area</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Racedo</td>
+						<td>Cristian Damian</td>
+						<td>c215714n</td>
+						<td>cristiandracedo@hotmail.com</td>
+						<td>Instruccion</td>
+					</tr>
+					<tr>
+						<td>Vin</td>
+						<td>Diesel</td>
+						<td>xxx</td>
+						<td>toretto@ff.com</td>
+						<td>Actor</td>
+					</tr>
+					<tr>
+						<td>Placeres</td>
+						<td>Rodrigo</td>
+						<td>rodrigopla</td>
+						<td>rgp@mail.com</td>
+						<td>Alumno</td>
+					</tr>
+					<tr>	
+						<td>Rojas</td>
+						<td>Jorge</td>
+						<td>JRojas</td>
+						<td>jr@hotmail.com</td>
+						<td>Musico</td>
+					</tr>
+					<tr>
+						<td>Souto</td>
+						<td>Lucas</td>
+						<td>Lucas</td>
+						<td>l@m.com</td>
+						<td>Alumno</td>
+					</tr>
+					<tr>
+						<td><p style="color:red">Ruiz</p></td>
+						<td>Elian</td>
+						<td>Elian1991</td>
+						<td>elyr_38@hotmail.com</td>
+						<td>Alumno</td>
+					</tr>					
+				</tbody>				
+			</table>
+			<section></section>
+		</footer>
+		<script src="scripts/main.js"></script>
+	</body>
+</html>
